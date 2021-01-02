@@ -1,0 +1,20 @@
+name: project_environment
+dependencies:
+  # The python interpreter version.
+  # Currently Azure ML Workbench only supports 3.5.2.
+  - python=3.7
+
+  # Required for Jupyter Notebooks.
+  - ipykernel
+
+  - pip:
+    # The API for Azure Machine Learning Model Management Service.
+    # Details: https://github.com/Azure/Machine-Learning-Operationalization
+    - azureml-core
+    - azure-ml-api-sdk
+    - azureml-dataprep
+    - azure-storage-blob
+    - pandas
+    - matplotlib
+    - scikit-learn
+    
