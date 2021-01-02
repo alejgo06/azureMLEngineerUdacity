@@ -97,7 +97,10 @@ def main():
     #ws = Workspace.from_config()
     #dataset = Dataset.get_by_name(ws, name='bank')
     
+    
+    
     web_path ="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
+    #dataset = TabularDatasetFactory().from_delimited_files(web_path)
     dataset = Dataset.Tabular.from_delimited_files(path=web_path)
 
     x,y=clean_data(dataset)
