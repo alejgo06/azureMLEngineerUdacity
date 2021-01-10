@@ -87,5 +87,8 @@ The best algorithm is voting ensemble it is a completely different architecture 
 
 One thing that could improve all this metric is to modify the execution time of the automl to find more models, anther thing is to perform a hyperparameters search with more hyperparameters. Another thing to improve the model is to analyze the error, maybe the class is not balanced, maybe we need to split the data into some subgroups. A descriptive phrase would help in this task.
 
+The reason why is very important to do an EDA(exploratory data analysis) is that if the dataset is not balanced the model will not learn to predict one of the class. There are multiples ways to have balanced classes, one of them is to sample repeated cases in the less represented class.
 
+The reason why is very important to analyze the error is that we can find a pattern that all miss classify cases are following. Maybe a nested model would learn how to predict these miss classify cases.
 
+One of the best model has been selected, a deep search in the hyperparameters selected would improve the accuracy of the model.
