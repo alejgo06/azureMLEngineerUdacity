@@ -91,4 +91,4 @@ The reason why is very important to do an EDA(exploratory data analysis) is that
 
 The reason why is very important to analyze the error is that we can find a pattern that all miss classify cases are following. Maybe a nested model would learn how to predict these miss classify cases.
 
-One of the best model has been selected, a deep search in the hyperparameters selected would improve the accuracy of the model.
+Once that the best model has been selected, a deep search in the hyperparameters selected would improve the accuracy of the model.
