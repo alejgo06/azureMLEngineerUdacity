@@ -13,7 +13,7 @@ that are required to do:
 The structure of this project can be shown as this diagram:
 Each box is a step in the project and each box has multiples tasks to do to be completed.
 
-![Screenshot](img/diagram.PNG)
+![Screenshot](img/diagram.png)
 
 # A short description of how to improve the project in the future
 To improve this project a few things must be made:
