@@ -2,12 +2,17 @@
 In this project, the main objective is to deploy machine learning models in azure. To do this there are a few things 
 that are required to do:
 - Get permission
-- Create computer cluster and load dataset
-- Train a model
-- Deploy model
-- check logs and swagger
-- Predict new data, entry point, and benchmark
-- Publish pipeline
+- Connect to azure ML platform
+- Create a computer cluster
+- Load dataset
+- Configure Automl
+- Train a model in automl
+- Deploy model in a rest API from ML studio platform
+- check logs
+- show swagger
+- Consume model from azure Python SDK
+- Benchmark endpoint
+- train and deploy rest API from ML Azure Python SDK
 
 # An architectural diagram
 The structure of this project can be shown as this diagram:
@@ -34,52 +39,149 @@ could be grateful to use it in an app for example a Django, dash Streamlit app, 
  Kubernetes stances, the reason why to add this section is that it would teach how to deploy our own docker
 
 # All the screenshot required in the project main steps with a short description 
-In this section, you can see the step by step entire project. The project was made in two days and I had to repeat from
- the beginning but I skip to upload repeated pictures.
-* Authentication
+In this section, you can see the step by step entire project. The project was made in two days and I had to repeat it from the beginning but I skip to upload repeated pictures.
+<h3>Step 1: Authentication</h3>
+First, let's try to authenticate. 
+There is a problem to do the first part of this project. Udacity student count has the role of the reader and it is 
+required to have advance authorization to do this step. 
+
 ![Screenshot](img/Captura.PNG)
- 
-* create compute cluster
-    ![Screenshot](img/Captura8.PNG)
-* Automated ML Experiment
-    * Dataset
-    ![Screenshot](img/Captura2.PNG)
-    * automl configuration
-    ![Screenshot](img/Captura3.PNG)
-    ![Screenshot](img/Captura9.PNG)
-    * model experiment complited
-    ![Screenshot](img/Captura11.PNG)
-* Deploy the Best Model
-    * select best model
-    ![Screenshot](img/Captura6.PNG)
-    * deploy configuration enable authentication and ACI
-    ![Screenshot](img/Captura12.PNG)
-    * deploy
-    ![Screenshot](img/Captura13.PNG)
-* logs 
+
+ But, It is not a problem because the udacity lab y configure to skip this step
+<h3> Step 2: Automated ML Experiment</h3>
+The next thing is to train a model.
+<h4> Create compute cluster</h4>
+First, we need to create a computer cluster. This is a VM where all the code is going to be run.
+
+![Screenshot](img/Captura8.PNG)
+
+<h4> Automated ML Experiment </h4>
+Now, we are ready to train a model by using the azure ml studio UI
+<h5>Dataset</h5>
+We load the dataset:
+
+![Screenshot](img/Captura2.PNG)
+
+<h5> Automl configuration</h5>
+Then configure the azure automl run, select the computer cluster previously created
+
+![Screenshot](img/Captura3.PNG)
+
+Explain the model, classification
+
+![Screenshot](img/Captura9.PNG)
+
+<h5> Model experiment complited</h5>
+Once the experiment has been completed is the status section appear stratus="Compleated
+At the right, we can see that the best model is a voting ensemble
+
+![Screenshot](img/Captura11.PNG)
+    
+<h3> Step 3: Deploy the Best Model </h3>
+The next thing is to deploy the model using the azure ml studio UI
+<h4> Deploy the Best Model</h4>
+<h5>Select best model</h5>
+We can see in more detail the models trained in this run. This table is ordered by accuracy and the best
+ model is a voting ensemble.
+
+![Screenshot](img/Captura6.PNG)
+
+<h5>Deploy configuration enable authentication and ACI</h5>
+
+This model is chosen 
+
+![Screenshot](img/Captura12.PNG)
+
+<h5> Deploy</h5>
+
+This model is deployed and it can be consumed a rest API
+![Screenshot](img/Captura13.PNG)
+    
+<h3>Step 4: Enable Application Insights</h3>
+As you can see in the authentification section where I had an issue with my user authorization I was using a git-shell. 
+AZ is already installed in the system and the python version is greater than 3.8. 
+The next thing is to Application Insights enabled says “true”.
+To do this I run this chunk of code. It is part of the code that you will see in a later picture
+
+![Screenshot](img/Captura31.PNG)
+
+<h4> Logs </h4>
+Once the log is available by azure python SDK we can see the logs
+This code comes from logs.py but I have copied it on a jupyter notebook to make it easier to use all the code.
+
 ![Screenshot](img/Captura14.PNG)
+
 ![Screenshot](img/Captura15.PNG)
-* Swagger
+
+<h3>Step 5: Swagger Documentation</h3>
+Now, That we know that the apr rest is running, log looks create the next thing is to show to swagger 
+documentation of this endpoint
+<h4> Swagger </h4>
+Previously I had to download the JSON file from azure ml studio, run a docker container of swagger and run server.py to 
+see the JSON document in the required port.
+
 ![Screenshot](img/Captura21.PNG)
+
 ![Screenshot](img/Captura22.PNG)
+
 ![Screenshot](img/Captura23.PNG)
-* Consume Model Endpoints
-    * endpoint
-    ![Screenshot](img/Captura17.PNG)
-    ![Screenshot](img/Captura18.PNG)
-    ![Screenshot](img/Captura19.PNG)
-    ![Screenshot](img/Captura20.PNG)
-    * benchmark
-    ![Screenshot](img/Captura24.PNG)
-    ![Screenshot](img/Captura25.PNG)
-* Create, Publish and Consume a Pipeline
+
+<h3>Step 6: Consume Model Endpoints</h3>
+Now, we can consume the endpoint
+<h4> Consume Model Endpoints</h4>
+
+<h5> Endpoint</h5>
+The code to predict now data from the scrip called endpoint.py
+
+![Screenshot](img/Captura19.PNG)
+
+The data is saved in a JSON called data.json
+
+![Screenshot](img/Captura18.PNG)
+
+And the result is "no"
+We can see the same result by running the script from the shell
+
+![Screenshot](img/Captura20.PNG)
+
+<h5> Benchmark</h5>
+
+Now, we know that the API rest returns a prediction of this model but we need to measure the performance of this endpoint. is it fast? does it have a lot of issues?
+To do this we run ab library
+
+![Screenshot](img/Captura24.PNG)
+
+![Screenshot](img/Captura25.PNG)
+
+<h3>Step 7: Create, Publish and Consume a Pipeline</h3>
+Lastly. let's deploy a pipeline from a jupyter notebook I use python SDK to train and deploy ml models
+The model is trained with azure automl  
+It is running
+
 ![Screenshot](img/Captura26.PNG)
+
+You can see that it is running in the UI
+
 ![Screenshot](img/Captura27.PNG)
+
+In the notebook, you can see that the automl is running
+
 ![Screenshot](img/Captura28.PNG)
+Once it has done the pipeline is active and ready to be used
+
 ![Screenshot](img/Captura29.PNG)
 
+Now, the pipeline has been published showing a REST endpoint and a status of Compleated
+
+![Screenshot](img/Captura30.PNG)
+
+![Screenshot](img/Captura31.PNG)
+
 # A link to the screencast video on youtube.
-In the next link, you can see a demo of this project:  https://youtu.be/lkBe-09wGPE
+In the next link, you can see a demo of this project: 
+ 
+First part https://youtu.be/lkBe-09wGPE
+
 Audio transcription:
 - 0:13 I need to have some extra time for my lab
 - 0:22 Now, I can come back to the lab
@@ -154,6 +256,16 @@ Audio transcription:
 
 
 
+Second part:
+https://youtu.be/4q-SrR83r4s
+
+Audio transcription:
+- 0:02 when the jupyter notebook has done to run 
+- 0:06 as you can see It has been completed
+- 0:18 there are different metric each one calculated to each model
+- 0:29 the best model is selected and used to predict data. The confuse matrix has very high accuracy
+- 0:34 the pipeline has been published
+- 0:40 and in the Azure ml studio you can see that now the pipeline has been completed
 
 
-[![IMAGE ALT TEXT HERE](https://bcs.solutions/wp-content/uploads/2019/04/Azure.png)](https://youtu.be/lkBe-09wGPE)
+Deployed Pipeline
