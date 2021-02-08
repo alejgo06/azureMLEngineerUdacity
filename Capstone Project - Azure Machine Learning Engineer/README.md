@@ -1,6 +1,16 @@
 # Predict the price of high-speed-rail network train tickets in Spain.
 
-In this short project, the objective is to predict the ticket price. To do this it is required to download the dataset and build some variables then predict the price. To this objective, I am going to use azure ml to train a lot of different models. Lastly, I will deploy the best model as an endpoint and test if it is working.
+In this short project, the objective is to predict the ticket price of a train in Spain. multiple variables could be related to the price and It could be great if we could predict the price that we could have depending on the day of the week or other variables. The price is in euros.
+ To do this it is required to download the dataset of price ticker from Kaggle and build some variables then predict the price. To this objective, I am going to use azure ml to train a lot of different models. Azure ml is a platform where 
+ you can train machine learning models much faster than in your laptops and we can try multiples models at the same time. 
+ For this project, I use azure automl and hyperparameter search.
+ Azure automl needs a dataset and a target and the azure system will try multiples models to find the best model for your 
+ problem.
+ Azure hyperdrive, hyperparameter is a much more similar thing to what you would do in your notebook. You define a model 
+ with a hyperparameter 
+ configuration but when you use this API it random the hyperparameters and tries multiple models in parallel much faster than your laptop.
+ Lastly, I will deploy the best model as an endpoint and test if it is working.
+ 
 
 ## Dataset
 The dataset is from Kaggle.: https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing
@@ -13,67 +23,160 @@ As this dataset is more than 557MB, I will have to create a sample of this data 
 
 ### Task
 
-The main objective is to try to predict the price of the ticket. depend on the destination, the day, the day of the week, 
-the session.
+The main objective is to try to predict the price of the ticket for trains from Spain. depend on the destination, the 
+day, the day of the week, the session.
 
 ### Access
 
 Once the dataset is selected, the next thing is to access azure ml studio. 
 Then I create computer instances and computer clusters. To have jupyter and cluster where I will deploy the model to train.
+
 ![Screenshot](setup/Captura.PNG)
+
 I can upload all the jupyter notebooks for this project. there is one important jupyter notebook called: getData.ipynb
 
 ![Screenshot](setup/Captura4.PNG)
+
 In this notebook, getData, I make some preprocess steps for example from departure day 
 I extract the day, day of the week, 
 type of hours: early morning, afternoon, night.
 I delete all the rows without price.
 I create a sample from this dataset. Instead of 30.000.000 obs, I will use 5.000 obs
+
 ![Screenshot](setup/Captura5.PNG)
+
 Then we need to upload the dataset.
+
 ![Screenshot](setup/Captura2.PNG)
+
 ![Screenshot](setup/Captura3.PNG)
 
 ## Automated ML
 ### Train
-Once the dataset is ready, the next thing is to run de automl jupyter notebook:
-In this case, the objective is to predict continue variables, then the problem 
-type is regression. 
-![Screenshot](automl/Captura.PNG)
-Once the automl pipeline is deployed, the widget show how the different models are being trained. And display the finish message when it ends.
-<strong>RunDetails widget</strong>
-![Screenshot](automl/Captura2.PNG)
-I can see the logs while it is training and when the pipeline has done to train it shows a finish message.
-![Screenshot](automl/Captura3.PNG)
-Then, we can see the performance, the metrics of each trained model:
-![Screenshot](automl/Captura4.PNG)
-Then select the best model:
-![Screenshot](automl/Captura5.PNG)
-### Publish the automl
-Publish the pipeline. 
-![Screenshot](automl/Captura6.PNG)
-It can be seen as deployed in the azure ml UI
-![Screenshot](automl/Captura7.PNG)
-And we can see the best model that in this case is a voting ensemble.
-![Screenshot](automl/Captura8.PNG)
-### Logs
-We can see the model, logs, explanation to understand better how this model works in our data.
-![Screenshot](automl/Captura9.PNG)
-### Deploy best automl model
-Then, select the best good model and deployed it to consume it as the rest API endpoint.
-I choose a name, azure container instance, and enable authentication.
-![Screenshot](automl/Captura10.PNG)
-Then the model is deployed
-![Screenshot](automl/Captura11.PNG)
-It is healthy and it can be consumed with this example code. where I have an URL
- and keys to interact with this endpoint.
-![Screenshot](automl/Captura14.PNG)
-![Screenshot](automl/Captura12.PNG)
-### Results, test endpoint
-I can use this code in a Jupiter notebook or interact from another app where I define
- the that that I want to predict, the send this request to the endpoint
-![Screenshot](automl/Captura13.PNG)
+Once the dataset is ready, the next thing is to run de automl jupyter notebook.
+Let's take a deeper look at the parameter:
 
+   - Experiment timeout is defined as 20 minutes to save some time. If you load a dataset with a high number of rows it required a longer time. At the beginning of this project when I wanted to predict all the observations I had to 
+    increase this number but it took more than one hour of training.
+   - The primary metric is a normalized mean square error. This is one of the typical metrics that you can use in a 
+    regression problem. The are other metrics but I have chosen this one for convenience.
+   - In this case, the objective is to predict continue variables, then the problem type is regression. 
+   - The label column is the name of the target column, in this case, y, I have chosen y for convenience but it could have 
+other names.
+   - The early stopping parameter is defined as true. This parameter has a definition of stoping that allows stopping earlier 
+the problem when, for example, after a few multiples iteration the metrics that you want to minimize don't decrease.
+   - Debug log is the log where you can see how this automl object is training 
+   - Featurization means to do some transformation, feature engineer, that helps to get better prediction. For example 
+normalize the data.
+
+![Screenshot](automl/Captura21.PNG)
+
+Training data is the dataset that I have loaded in memory in a precious cell
+
+![Screenshot](automl/Captura17.PNG)
+
+Then we can run this automl as a pipeline
+
+![Screenshot](automl/Captura38.PNG)
+
+The widget shows how the different models are being trained. And display the finish message when it ends.
+<strong>RunDetails widget</strong>
+
+![Screenshot](automl/Captura22.PNG)
+
+We can see the performance of each model. The metric, run time.
+
+
+![Screenshot](automl/Captura23.PNG)
+
+The lowest RMSE is 0.0792 as you can see this minimum is reached in maxabscaler light GBM.
+These metrics are very low then the model is really good and only has a small error.
+
+![Screenshot](automl/Captura24.PNG)
+
+We can see the best model, we can see that it has l1 ratio=0.32 maxabscaler
+
+![Screenshot](automl/Captura25.PNG)
+
+We can see the estimator. As I mentioned previously it is a lightgmr regressor with maxabs scaler but here we can have 
+more details for examples min child sample is 20, the learning rate is 0.1.
+
+![Screenshot](automl/Captura26.PNG)
+
+This model has the next steps in the pipeline a data transformer a masbabs scaler with libmr regression then, an Electricnet.
+The output score has a weight of these two models 81 % score is lightgbm model and 18% is electricnet. These are the weights.
+
+![Screenshot](automl/Captura27.PNG)
+
+We can identify the run id of this best model
+
+![Screenshot](automl/Captura28.PNG)
+
+
+### Register the automl model
+
+Then, we can register this best model. It is saved in a pkl called bestaumlmodel
+
+![Screenshot](automl/Captura39.PNG)
+
+Once it is registered we can see it in the azure UI
+
+![Screenshot](automl/Captura31.PNG)
+
+### Deploy best automl model
+
+Once, it is registered we can deploy this model as an endpoint
+
+We need to define the service, the aci config, the conda environment and download the best model.
+The name of this endpoint is <strong>aml</strong>
+![Screenshot](automl/Captura40.PNG)
+
+The score script is this:
+
+![Screenshot](automl/Captura37.PNG)
+
+Then, we are ready to deploy this endpoint:
+
+![Screenshot](automl/Captura30.PNG)
+
+We can see that this endpoint is healthy and the URL. 
+This is how to deploy from code but we can deploy it by UI.
+It can be seen as deployed in the azure ml UI
+
+![Screenshot](automl/Captura10.PNG)
+
+
+
+And now we can see the depoyed endpoint called <strong> aml </strong>
+
+
+![Screenshot](automl/Captura32.PNG)
+
+
+### Results, test endpoint
+
+The endpoint is ready to be tested. 
+we have the URL endpoint and keys to authenticate
+![Screenshot](automl/Captura33.PNG)
+
+I have created a jupyter notebook to test this endpoint, In this code, there are two parts:
+- the data with all the variables that take one value each one. it just a test example but we could read it from a CSV 
+and ask multiple times to this endpoint.
+
+ ![Screenshot](automl/Captura34.PNG)
+
+- The headers where the URL endpoint is defined with the key
+
+![Screenshot](automl/Captura35.PNG)
+
+This HTTP request will send the data to the endpoint and read the response of this endpoint. This response is the predicted price of a ticket with these characteristics. In this case: 73.19 euros.
+
+To make this process more replicated I downloaded the config JSON that can be loaded in another session It could be 
+downloaded by code
+
+    myenv = Environment.save_to_directory(path="path-to-destination-directory", overwrite=False)
+
+![Screenshot](automl/Captura36.PNG)
 
 
 ## Hyperparameter Tuning
@@ -85,48 +188,106 @@ I need:
 - hyperparameter object with parameter sampling to choose and early stoping policy to stop the training process.
 
 This is the script. you can see that it get multiple parameters as input and us them to train the model.
-The show in the log the metric
+The model will show the score in the log.
+
 ![Screenshot](hyp/Captura3.PNG)
+
+We can have a deeper look at this parameter:
+- Max depth is how deep is are the trees. 
+- Each tree is going to split into two leaves each one is going to have another split and so on. to define the minimum size
+ of each leaf before a split, we use min samples per leaf 
+- The difference between a random forest and a decision tree is that a random forest runs a lot of different decision trees and mixes all the models in just one. each decision tree doesn't use the same columns, features each one randomly several features. For example, the first one uses the destination and day of the week and the second one uses the week of the day and the duration. This maximum number of features randomized is defined by the hyperparameter called max features
+ 
+![Screenshot](hyp/Captura18.PNG)
+
 The parameter sampling. in this case, I have chosen only three hyperparameters with 2 or 3 options each. 
 I could use other sampling techniques for example random distribution.
+
 ![Screenshot](hyp/Captura.PNG)
-then the hyperparameter object is deployed
+
+Then the hyperparameter object is deployed. But before it, we need to define the estimator that is built as a sklearn object and the script where all the train logic was defined.
+ the primary metric is rmse is the name that I used in the training script to save the metric root mean square error.
+The primary metric goal is to minimize because as low the RMSE is best is the model.
+max total runs=4 it is an experiment and in 3 hours we can try 100 models, we need to have a restricted number of models to save time. even, there are only 6 hyperparameters model combination to train. 4 of these 12 is 33% of these combinations
+
 ![Screenshot](hyp/Captura2.PNG)
+
 we can see the logs
+
 ![Screenshot](hyp/Captura4.PNG)
+
 To have more details about each model we can see the experiment, in this case, is ml-experiment-hy
+
 ![Screenshot](hyp/Captura5.PNG)
+
 Then there are multiple runs, I want to see the last one, the run that is running. Run 7
+
 ![Screenshot](hyp/Captura6.PNG)
+
 Inside this run, there are multiples run, each one of these runs is the model each one with a set of hyperparameters.
+
 ![Screenshot](hyp/Captura7.PNG)
+
 For examples, inside run 10 we can see the logs and in this case, it required to authenticate 
+
 ![Screenshot](hyp/Captura8.PNG)
+
 Once that I authenticate with the code, the runs ends
+
 ![Screenshot](hyp/Captura9.PNG)
+
 ### Logs
+
 we can see the performance of each model:
+
+For example, when the max depth is 100 min samples is 2 and max features the models get an RMSE of 14.89 with is not bad, 
+it is lower than the default rmse that I could get in a random forest without specifying the hyperparamters
 ![Screenshot](hyp/Captura10.PNG)
+
 <strong>RunDetails widget</strong>
+
 ![Screenshot](hyp/Captura11.PNG)
+
 we can see the logs, the best model, and deployed model
+
 ![Screenshot](hyp/Captura12.PNG)
+
 ### Deploy the best model
+
 The best model is registred
+
 ![Screenshot](hyp/Captura13.PNG)
+
 we can see the model in the UI
+
 ![Screenshot](hyp/Captura14.PNG)
+
 we can save it by defining the same of a different workspace, ws.
+
 ![Screenshot](hyp/Captura15.PNG)
+
 Then deploy this model as an endpoint as we saw in the automl model.
+
 ![Screenshot](hyp/Captura16.PNG)
 
 ## Screen Recording
+
 - A working model
 - Demo of the deployed  model
 - Demo of a sample request sent to the endpoint and its response
+
 https://youtu.be/jmfIApPRld0
 
+## Suggestions For Future Improvement
 
+- one thing that could improve the model is to have more hyperparameter, add a longer grid.
 
+- Another thing could be to use more data. AS I mentioned I had to do a sample of this data but we have 29.950.000 extra rows 
+that could help to understand more complex behavior.
+
+- It had developed a get data step where I build some feature engineering that I know about the problem because I have previous 
+knowledge about the ticket price and I know that It depends on the month of the year and sometimes on the day of the week 
+but The model could improve if we add more feature engineering variables for examples the how much time before the 
+departure the ticket was sold if there was an important event at that time when was the spring break of that year...
+ 
 
