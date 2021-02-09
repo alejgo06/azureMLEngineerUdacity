@@ -42,9 +42,9 @@ from sklearn.metrics import explained_variance_score
 
 from azureml.core import Workspace
 
-subscription_id = 'cdbe0b43-92a0-4715-838a-f2648cc7ad21'
-resource_group  = 'aml-quickstarts-137787'
-workspace_name  = 'quick-starts-ws-137787'
+subscription_id = '5a4ab2ba-6c51-4805-8155-58759ad589d8'
+resource_group  = 'aml-quickstarts-138280'
+workspace_name  = 'quick-starts-ws-138280'
 
 try:
     ws = Workspace(subscription_id = subscription_id, resource_group = resource_group, workspace_name = workspace_name)
@@ -61,7 +61,7 @@ except:
 # -
 import joblib
 from azureml.core.run import Run
-run = Run.get_context()
+
 
 
 
@@ -93,13 +93,11 @@ def main():
     parser.add_argument('--max_features', type=float, default=0.2, help="max_features")
     
     args = parser.parse_args()
-    run.log("max_depth:", np.int(args.max_depth))
-    run.log("min_samples_leaf:", np.int(args.max_depth))
-    run.log("max_features:", np.int(args.max_features))
+
     
     run_logger.log("max_depth:", np.int(args.max_depth))
     run_logger.log("min_samples_leaf:", np.int(args.min_samples_leaf))
-    run_logger.log("max_features:", np.int(args.max_features))
+    run_logger.log("max_features:", np.float(args.max_features))
 
     
     #dataset = Dataset.get_by_name(ws, name='data')
@@ -119,8 +117,7 @@ def main():
     #sqrt(mean_squared_error(y_train, yhat_train))
     RMSE=sqrt(mean_squared_error(y_test, yhat_test))
 
-    run.log('RMSE', np.float(RMSE))
-    run.log('aux', 45)
+    
     
     run_logger.log('RMSE', np.float(RMSE))
     

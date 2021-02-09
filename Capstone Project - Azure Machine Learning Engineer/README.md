@@ -191,13 +191,12 @@ and ask multiple times to this endpoint.
 
 ![Screenshot](automl/Captura53.png)
 
-This HTTP request will send the data to the endpoint (this inference code) and recibe the response from this endpoint. 
+This HTTP request will send the data to the endpoint (this inference code) and get the response from this endpoint. 
 Then the endpoint (the score.py script) recibe the data, load the model a make a prediction. This prediction is sent back 
 to the first machine. 
 This response is the predicted price of a ticket with these characteristics. In this case: 73.19 euros.
 
-we can see that this HTTP has been sent because we can see the logs and it registers a post-petition at 9:49 the same 
-hour that you can see in the previous script that show the time after retrieve the requests.
+we can see that this HTTP has been sent because we can see the logs and it registers a post-petition at 9:49 the same time that you can see in the previous script that shows the time after retrieving the requests.
  
 ![Screenshot](automl/Captura54.png)
 
@@ -208,16 +207,21 @@ We can see the traffic of the endpoint and we see that we are receiving petition
 
 ### save environment
 
-To make this process more replicated I download the environment with 
-
+To make this process more replicated I need to download the environment.
+This is the environment and it can be saved with this command
 ![Screenshot](automl/Captura47.png)
 ![Screenshot](automl/Captura48.png)
-
-And this environment is loaded to be replicable. 
-
-This code generates 2 files:
-
+This command creates two files inside a folder called envi, I have added this folder with these files to the repo.
 ![Screenshot](automl/Captura60.png)
+
+Another option just saves the conda environment file
+![Screenshot](automl/Captura64.png)
+I have added this file to the repo. 
+
+Save the conda environment is very important because it helps to have a very replicated environment, same package version for examples. 
+This helps to have stronger predictions and stronger code.
+ 
+
 
 
 ## Hyperparameter Tuning
@@ -295,9 +299,15 @@ we can see the logs, the best model, and deployed model
 
 ### Deploy the best model
 
+We can see all the models sorted by primary metric RMSE
+
+![Screenshot](hyp/Captura19.PNG)
+
+And the best model is: max depth=100 max features 0.5 and mins samples leaf=5 because it has the lowest RMSE 14.6004.
+
 The best model is registred
 
-![Screenshot](hyp/Captura13.PNG)
+![Screenshot](hyp/Captura20.PNG)
 
 we can see the model in the UI
 
@@ -318,6 +328,12 @@ Then deploy this model as an endpoint as we saw in the automl model.
 - Demo of a sample request sent to the endpoint and its response
 
 https://youtu.be/jmfIApPRld0
+
+<strong> NEW </strong> 
+
+https://youtu.be/3bPk_NRiWcA
+
+
 
 ## Suggestions For Future Improvement
 
