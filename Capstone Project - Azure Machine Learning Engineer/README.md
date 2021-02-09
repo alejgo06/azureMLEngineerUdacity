@@ -87,7 +87,7 @@ The widget shows how the different models are being trained. And display the fin
 We can see the performance of each model. The metric, run time.
 
 
-![Screenshot](automl/Captura23.png)
+![Screenshot](automl/Captura23.PNG)
 
 The lowest RMSE is 0.0788 as you can see this minimum is reached in the voting ensemble.
 These metrics are very low then the model is really good and only has a small error.
