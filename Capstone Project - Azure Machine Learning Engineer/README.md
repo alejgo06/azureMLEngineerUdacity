@@ -69,15 +69,15 @@ the problem when, for example, after a few multiples iteration the metrics that 
    - Featurization means to do some transformation, feature engineer, that helps to get better prediction. For example 
 normalize the data.
 
-![Screenshot](automl/Captura21.png)
+![Screenshot](automl/Captura21.PNG)
 
 Training data is the dataset that I have loaded in memory in a precious cell
 
-![Screenshot](automl/Captura17.png)
+![Screenshot](automl/Captura17.PNG)
 
 Then we can run this automl as a pipeline
 
-![Screenshot](automl/Captura38.png)
+![Screenshot](automl/Captura38.PNG)
 
 The widget shows how the different models are being trained. And display the finish message when it ends.
 <strong>RunDetails widget</strong>
