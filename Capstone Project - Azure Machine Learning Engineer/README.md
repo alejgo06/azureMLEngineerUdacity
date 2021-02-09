@@ -191,12 +191,13 @@ and ask multiple times to this endpoint.
 
 ![Screenshot](automl/Captura53.png)
 
-This HTTP request will send the data to the endpoint (this inference code) and read the response of this endpoint. 
-Then the endpoint (the score script) recibe the data, load the model a make a prediction. This prediction is sent back to the first machine
+This HTTP request will send the data to the endpoint (this inference code) and recibe the response from this endpoint. 
+Then the endpoint (the score.py script) recibe the data, load the model a make a prediction. This prediction is sent back 
+to the first machine. 
 This response is the predicted price of a ticket with these characteristics. In this case: 73.19 euros.
 
 we can see that this HTTP is received because we can be the logs and it received a post-petition at 9:49 the same hour that
- you can see in the previous script that show the time afte4 retrieve the requests
+ you can see in the previous script that show the time after retrieve the requests
  
 ![Screenshot](automl/Captura54.png)
 
