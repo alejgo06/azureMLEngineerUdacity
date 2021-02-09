@@ -196,7 +196,7 @@ Then the endpoint (the score.py script) recibe the data, load the model a make a
 to the first machine. 
 This response is the predicted price of a ticket with these characteristics. In this case: 73.19 euros.
 
-we can see that this HTTP has been sent because we can see the logs and it register a post-petition at 9:49 the same 
+we can see that this HTTP has been sent because we can see the logs and it registers a post-petition at 9:49 the same 
 hour that you can see in the previous script that show the time after retrieve the requests.
  
 ![Screenshot](automl/Captura54.png)
@@ -204,11 +204,6 @@ hour that you can see in the previous script that show the time after retrieve t
 We can see the traffic of the endpoint and we see that we are receiving petitions, blue chart.
 
 ![Screenshot](automl/Captura55.png)
-
-
-
-
-
 
 
 ### save environment
