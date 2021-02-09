@@ -217,6 +217,7 @@ This command creates two files inside a folder called envi, I have added this fo
 ![Screenshot](automl/Captura60.png)
 
 Another option is just saves the conda environment file
+
 ![Screenshot](automl/Captura64.png)
 I have added this file to the repo. 
 
