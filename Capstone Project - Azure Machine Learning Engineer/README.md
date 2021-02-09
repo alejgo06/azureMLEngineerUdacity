@@ -31,11 +31,11 @@ day, the day of the week, the session.
 Once the dataset is selected, the next thing is to access azure ml studio. 
 Then I create computer instances and computer clusters. To have jupyter and cluster where I will deploy the model to train.
 
-![Screenshot](setup/Captura.png)
+![Screenshot](setup/Captura.PNG)
 
 I can upload all the jupyter notebooks for this project. there is one important jupyter notebook called: getData.ipynb
 
-![Screenshot](setup/Captura4.png)
+![Screenshot](setup/Captura4.PNG)
 
 In this notebook, getData, I make some preprocess steps for example from departure day 
 I extract the day, day of the week, 
@@ -43,13 +43,13 @@ type of hours: early morning, afternoon, night.
 I delete all the rows without price.
 I create a sample from this dataset. Instead of 30.000.000 obs, I will use 5.000 obs
 
-![Screenshot](setup/Captura5.png)
+![Screenshot](setup/Captura5.PNG)
 
 Then we need to upload the dataset.
 
-![Screenshot](setup/Captura2.png)
+![Screenshot](setup/Captura2.PNG)
 
-![Screenshot](setup/Captura3.png)
+![Screenshot](setup/Captura3.PNG)
 
 ## Automated ML
 ### Train
