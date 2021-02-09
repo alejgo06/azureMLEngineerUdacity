@@ -82,40 +82,36 @@ Then we can run this automl as a pipeline
 The widget shows how the different models are being trained. And display the finish message when it ends.
 <strong>RunDetails widget</strong>
 
-![Screenshot](automl/Captura22.PNG)
+![Screenshot](automl/Captura49.PNG)
 
 We can see the performance of each model. The metric, run time.
 
 
 ![Screenshot](automl/Captura23.PNG)
 
-The lowest RMSE is 0.0792 as you can see this minimum is reached in maxabscaler light GBM.
+The lowest RMSE is 0.0788 as you can see this minimum is reached in the voting ensemble.
 These metrics are very low then the model is really good and only has a small error.
 
-![Screenshot](automl/Captura24.PNG)
+![Screenshot](automl/Captura50.PNG)
 
-We can see the best model, we can see that it has l1 ratio=0.32 maxabscaler
+we can see that it has l1 ratio=0.32 maxabscaler
+We can see the estimator. As I mentioned previously it is a soft voting ensemble, here we can have more details, for example, min child sample is 20, the learning rate is 0.1.
+![Screenshot](automl/Captura51.PNG)
 
-![Screenshot](automl/Captura25.PNG)
-
-We can see the estimator. As I mentioned previously it is a lightgmr regressor with maxabs scaler but here we can have 
-more details for examples min child sample is 20, the learning rate is 0.1.
-
-![Screenshot](automl/Captura26.PNG)
-
-This model has the next steps in the pipeline a data transformer a masbabs scaler with libmr regression then, an Electricnet.
+This model ensemble has two steps, first a maxabs scale with a lightgbmregressor and second a maxabs scaler with elasticnet
 The output score has a weight of these two models 81 % score is lightgbm model and 18% is electricnet. These are the weights.
 
-![Screenshot](automl/Captura27.PNG)
+![Screenshot](automl/Captura52.PNG)
 
 We can identify the run id of this best model
 
-![Screenshot](automl/Captura28.PNG)
+![Screenshot](automl/Captura61.PNG)
 
 
 ### Register the automl model
 
 Then, we can register this best model. It is saved in a pkl called bestaumlmodel
+
 
 ![Screenshot](automl/Captura39.PNG)
 
@@ -123,43 +119,70 @@ Once it is registered we can see it in the azure UI
 
 ![Screenshot](automl/Captura31.PNG)
 
-### Deploy best automl model
+### Deploy best automl model by using the code
 
 Once, it is registered we can deploy this model as an endpoint
 
 We need to define the service, the aci config, the conda environment and download the best model.
 The name of this endpoint is <strong>aml</strong>
+
+The aciwebserive is a very important object because it is how the endpoint is defined, its configuration. I have chose
+1 CPU and 1 GB. It is not the most efficient and maybe I could reduce this size to reduce the cost. 
+The default values are 0.1 CPU and 0.5 GB. As you can see in the Azure documentation: https://docs.microsoft.com/en-us/python/api/azureml-core/azureml.core.webservice.aci.aciservicedeploymentconfiguration?view=azure-ml-py
+the cpu_core is "the number of cores to allocate this webservice" and memory_gb is "the amount of memory to allocate this webservice"
+
+As this model is very simple and we don't need too much data in memory maybe we could set 0.100 GB or less to this webservice
+
+
 ![Screenshot](automl/Captura40.PNG)
 
 The score script is this:
 
+In this script the endpoint read the model, bestautomlmodel.pkl, the, read the data and, make a prediction of 
+the data with the loaded model 
 ![Screenshot](automl/Captura37.PNG)
 
 Then, we are ready to deploy this endpoint:
 
-![Screenshot](automl/Captura30.PNG)
+![Screenshot](automl/Captura62.PNG)
+
+And now we can see the depoyed endpoint with code called <strong> aml </strong> 
+
+![Screenshot](automl/Captura44.PNG)
 
 We can see that this endpoint is healthy and the URL. 
-This is how to deploy from code but we can deploy it by UI.
-It can be seen as deployed in the azure ml UI
+![Screenshot](automl/Captura63.PNG)
 
-![Screenshot](automl/Captura10.PNG)
+### Deploy best automl model by using the UI
 
+This is how to deploy from code but we can deploy it by using the UI.
 
+First, we need to find the best model in the UI, it is a voting ensemble, the same that we have deployed previously but now 
+we are going to deploy it using this UI.
 
-And now we can see the depoyed endpoint called <strong> aml </strong>
+![Screenshot](automl/Captura56.PNG)
 
+Second, select this run and deploy it
 
-![Screenshot](automl/Captura32.PNG)
+![Screenshot](automl/Captura57.PNG)
+
+It can be seen as deployed in the azure ml UI and it is healthy too.
+![Screenshot](automl/Captura59.PNG)
+
+Now, we can see that there are other called automlui that was created with the UI
+
+![Screenshot](automl/Captura58.PNG)
 
 
 ### Results, test endpoint
 
-The endpoint is ready to be tested. 
-we have the URL endpoint and keys to authenticate
-![Screenshot](automl/Captura33.PNG)
+The endpoint is ready to be tested. (This is the endpoint deployed by using code)
+
+![Screenshot](automl/Captura41.PNG)
 
 I have created a jupyter notebook to test this endpoint, In this code, there are two parts:
+
+(NEW, I have added this <strong>inference request</strong> to the automl notebook too)
 - the data with all the variables that take one value each one. it just a test example but we could read it from a CSV 
 and ask multiple times to this endpoint.
 
@@ -167,16 +190,38 @@ and ask multiple times to this endpoint.
 
 - The headers where the URL endpoint is defined with the key
 
-![Screenshot](automl/Captura35.PNG)
+![Screenshot](automl/Captura53.PNG)
 
-This HTTP request will send the data to the endpoint and read the response of this endpoint. This response is the predicted price of a ticket with these characteristics. In this case: 73.19 euros.
+This HTTP request will send the data to the endpoint (this inference code) and read the response of this endpoint. 
+Then the endpoint (the score script) recibe the data, load the model a make a prediction. This prediction is sent back to the first machine
+This response is the predicted price of a ticket with these characteristics. In this case: 73.19 euros.
 
-To make this process more replicated I downloaded the config JSON that can be loaded in another session It could be 
-downloaded by code
+we can see that this HTTP is received because we can be the logs and it received a post-petition at 9:49 the same hour that
+ you can see in the previous script that show the time afte4 retrieve the requests
+ 
+![Screenshot](automl/Captura54.PNG)
 
-    myenv = Environment.save_to_directory(path="path-to-destination-directory", overwrite=False)
+We can see the traffic of the endpoint and we see that we are receiving petitions, blue chart.
 
-![Screenshot](automl/Captura36.PNG)
+![Screenshot](automl/Captura55.PNG)
+
+
+
+
+
+
+
+### save environment
+
+To make this process more replicated I download the environment with 
+
+![Screenshot](automl/Captura47.PNG)
+![Screenshot](automl/Captura48.PNG)
+
+And this environment is loaded to be replicable. 
+
+This code generates 2 files:
+![Screenshot](automl/Captura60.PNG)
 
 
 ## Hyperparameter Tuning
@@ -241,7 +286,7 @@ Once that I authenticate with the code, the runs ends
 we can see the performance of each model:
 
 For example, when the max depth is 100 min samples is 2 and max features the models get an RMSE of 14.89 with is not bad, 
-it is lower than the default rmse that I could get in a random forest without specifying the hyperparamters
+it is lower than the default rmse that I could get in a random forest without specifying the hyperparameters
 ![Screenshot](hyp/Captura10.PNG)
 
 <strong>RunDetails widget</strong>
@@ -290,4 +335,8 @@ knowledge about the ticket price and I know that It depends on the month of the 
 but The model could improve if we add more feature engineering variables for examples the how much time before the 
 departure the ticket was sold if there was an important event at that time when was the spring break of that year...
  
+
+
+
+
 

@@ -13,9 +13,6 @@ def init():
 
 def run(data):
     try:
-        
-
-        
         data = json.loads(data)['data']
         data = pd.DataFrame.from_dict(data)
         result = daone.predict(data)
