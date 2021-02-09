@@ -143,7 +143,7 @@ the data with the loaded model
 ![Screenshot](automl/Captura37.PNG)
 
 Then, we are ready to deploy this endpoint:
-![Screenshot](automl/Captura62.PNG)
+![Screenshot](automl/Captura62.png)
 
 And now we can see the depoyed endpoint with code called <strong> aml </strong> 
 
