@@ -147,10 +147,10 @@ Then, we are ready to deploy this endpoint:
 
 And now we can see the depoyed endpoint with code called <strong> aml </strong> 
 
-![Screenshot](automl/Captura44.PNG)
+![Screenshot](automl/Captura44.png)
 
 We can see that this endpoint is healthy and the URL. 
-![Screenshot](automl/Captura63.PNG)
+![Screenshot](automl/Captura63.png)
 
 ### Deploy best automl model by using the UI
 
@@ -159,14 +159,14 @@ This is how to deploy from code but we can deploy it by using the UI.
 First, we need to find the best model in the UI, it is a voting ensemble, the same that we have deployed previously but now 
 we are going to deploy it using this UI.
 
-![Screenshot](automl/Captura56.PNG)
+![Screenshot](automl/Captura56.png)
 
 Second, select this run and deploy it
 
-![Screenshot](automl/Captura57.PNG)
+![Screenshot](automl/Captura57.png)
 
 It can be seen as deployed in the azure ml UI and it is healthy too.
-![Screenshot](automl/Captura59.PNG)
+![Screenshot](automl/Captura59.png)
 
 Now, we can see that there are other called automlui that was created with the UI
 
@@ -177,7 +177,7 @@ Now, we can see that there are other called automlui that was created with the U
 
 The endpoint is ready to be tested. (This is the endpoint deployed by using code)
 
-![Screenshot](automl/Captura41.PNG)
+![Screenshot](automl/Captura41.png)
 
 I have created a jupyter notebook to test this endpoint, In this code, there are two parts:
 
@@ -185,11 +185,11 @@ I have created a jupyter notebook to test this endpoint, In this code, there are
 - the data with all the variables that take one value each one. it just a test example but we could read it from a CSV 
 and ask multiple times to this endpoint.
 
- ![Screenshot](automl/Captura34.PNG)
+ ![Screenshot](automl/Captura34.png)
 
 - The headers where the URL endpoint is defined with the key
 
-![Screenshot](automl/Captura53.PNG)
+![Screenshot](automl/Captura53.png)
 
 This HTTP request will send the data to the endpoint (this inference code) and read the response of this endpoint. 
 Then the endpoint (the score script) recibe the data, load the model a make a prediction. This prediction is sent back to the first machine
@@ -198,11 +198,11 @@ This response is the predicted price of a ticket with these characteristics. In 
 we can see that this HTTP is received because we can be the logs and it received a post-petition at 9:49 the same hour that
  you can see in the previous script that show the time afte4 retrieve the requests
  
-![Screenshot](automl/Captura54.PNG)
+![Screenshot](automl/Captura54.png)
 
 We can see the traffic of the endpoint and we see that we are receiving petitions, blue chart.
 
-![Screenshot](automl/Captura55.PNG)
+![Screenshot](automl/Captura55.png)
 
 
 
@@ -214,13 +214,13 @@ We can see the traffic of the endpoint and we see that we are receiving petition
 
 To make this process more replicated I download the environment with 
 
-![Screenshot](automl/Captura47.PNG)
-![Screenshot](automl/Captura48.PNG)
+![Screenshot](automl/Captura47.png)
+![Screenshot](automl/Captura48.png)
 
 And this environment is loaded to be replicable. 
 
 This code generates 2 files:
-![Screenshot](automl/Captura60.PNG)
+![Screenshot](automl/Captura60.png)
 
 
 ## Hyperparameter Tuning
