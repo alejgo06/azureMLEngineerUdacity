@@ -19,7 +19,7 @@ It is rail ticket pricing. It has multiples variables such as company, origin, d
 duration, vehicle type, vehicle class, and price.
 As this dataset is more than 557MB, I will have to create a sample of this data frame. 
 
-![Screenshot](setup/Captura1.png)
+![Screenshot](setup/Captura1.PNG)
 
 ### Task
 
