@@ -209,8 +209,10 @@ We can see the traffic of the endpoint and we see that we are receiving petition
 
 To make this process more replicated I need to download the environment.
 This is the environment and it can be saved with this command
+
 ![Screenshot](automl/Captura47.png)
 ![Screenshot](automl/Captura48.png)
+
 This command creates two files inside a folder called envi, I have added this folder with these files to the repo.
 ![Screenshot](automl/Captura60.png)
 
