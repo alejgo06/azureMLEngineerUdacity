@@ -117,7 +117,7 @@ Then, we can register this best model. It is saved in a pkl called bestaumlmodel
 
 Once it is registered we can see it in the azure UI
 
-![Screenshot](automl/Captura31.png)
+![Screenshot](automl/Captura31.PNG)
 
 ### Deploy best automl model by using the code
 
@@ -140,7 +140,7 @@ The score script is this:
 
 In this script the endpoint read the model, bestautomlmodel.pkl, the, read the data and, make a prediction of 
 the data with the loaded model 
-![Screenshot](automl/Captura37.png)
+![Screenshot](automl/Captura37.PNG)
 
 Then, we are ready to deploy this endpoint:
 ![Screenshot](automl/Captura62.png)
@@ -185,7 +185,7 @@ I have created a jupyter notebook to test this endpoint, In this code, there are
 - the data with all the variables that take one value each one. it just a test example but we could read it from a CSV 
 and ask multiple times to this endpoint.
 
- ![Screenshot](automl/Captura34.png)
+ ![Screenshot](automl/Captura34.PNG)
 
 - The headers where the URL endpoint is defined with the key
 
@@ -235,7 +235,7 @@ I need:
 This is the script. you can see that it get multiple parameters as input and us them to train the model.
 The model will show the score in the log.
 
-![Screenshot](hyp/Captura3.png)
+![Screenshot](hyp/Captura3.PNG)
 
 We can have a deeper look at this parameter:
 - Max depth is how deep is are the trees. 
@@ -243,43 +243,43 @@ We can have a deeper look at this parameter:
  of each leaf before a split, we use min samples per leaf 
 - The difference between a random forest and a decision tree is that a random forest runs a lot of different decision trees and mixes all the models in just one. each decision tree doesn't use the same columns, features each one randomly several features. For example, the first one uses the destination and day of the week and the second one uses the week of the day and the duration. This maximum number of features randomized is defined by the hyperparameter called max features
  
-![Screenshot](hyp/Captura18.png)
+![Screenshot](hyp/Captura18.PNG)
 
 The parameter sampling. in this case, I have chosen only three hyperparameters with 2 or 3 options each. 
 I could use other sampling techniques for example random distribution.
 
-![Screenshot](hyp/Captura.png)
+![Screenshot](hyp/Captura.PNG)
 
 Then the hyperparameter object is deployed. But before it, we need to define the estimator that is built as a sklearn object and the script where all the train logic was defined.
  the primary metric is rmse is the name that I used in the training script to save the metric root mean square error.
 The primary metric goal is to minimize because as low the RMSE is best is the model.
 max total runs=4 it is an experiment and in 3 hours we can try 100 models, we need to have a restricted number of models to save time. even, there are only 6 hyperparameters model combination to train. 4 of these 12 is 33% of these combinations
 
-![Screenshot](hyp/Captura2.png)
+![Screenshot](hyp/Captura2.PNG)
 
 we can see the logs
 
-![Screenshot](hyp/Captura4.png)
+![Screenshot](hyp/Captura4.PNG)
 
 To have more details about each model we can see the experiment, in this case, is ml-experiment-hy
 
-![Screenshot](hyp/Captura5.png)
+![Screenshot](hyp/Captura5.PNG)
 
 Then there are multiple runs, I want to see the last one, the run that is running. Run 7
 
-![Screenshot](hyp/Captura6.png)
+![Screenshot](hyp/Captura6.PNG)
 
 Inside this run, there are multiples run, each one of these runs is the model each one with a set of hyperparameters.
 
-![Screenshot](hyp/Captura7.png)
+![Screenshot](hyp/Captura7.PNG)
 
 For examples, inside run 10 we can see the logs and in this case, it required to authenticate 
 
-![Screenshot](hyp/Captura8.png)
+![Screenshot](hyp/Captura8.PNG)
 
 Once that I authenticate with the code, the runs ends
 
-![Screenshot](hyp/Captura9.png)
+![Screenshot](hyp/Captura9.PNG)
 
 ### Logs
 
@@ -291,29 +291,29 @@ it is lower than the default rmse that I could get in a random forest without sp
 
 <strong>RunDetails widget</strong>
 
-![Screenshot](hyp/Captura11.png)
+![Screenshot](hyp/Captura11.PNG)
 
 we can see the logs, the best model, and deployed model
 
-![Screenshot](hyp/Captura12.png)
+![Screenshot](hyp/Captura12.PNG)
 
 ### Deploy the best model
 
 The best model is registred
 
-![Screenshot](hyp/Captura13.png)
+![Screenshot](hyp/Captura13.PNG)
 
 we can see the model in the UI
 
-![Screenshot](hyp/Captura14.png)
+![Screenshot](hyp/Captura14.PNG)
 
 we can save it by defining the same of a different workspace, ws.
 
-![Screenshot](hyp/Captura15.png)
+![Screenshot](hyp/Captura15.PNG)
 
 Then deploy this model as an endpoint as we saw in the automl model.
 
-![Screenshot](hyp/Captura16.png)
+![Screenshot](hyp/Captura16.PNG)
 
 ## Screen Recording
 
